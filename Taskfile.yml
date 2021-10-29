@@ -1,0 +1,41 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  run:
+    deps: [build]
+    dir: backend
+    cmds:
+      - cmd: cargo run --release
+        ignore_error: true
+
+  clean:
+    cmds:
+      - task: clean-frontend
+      - task: clean-backend
+
+  clean-frontend:
+    dir: frontend
+    cmds: 
+      - rm -r build
+
+  clean-backend:
+    dir: backend
+    cmds: 
+      - cargo clean
+
+  build:
+    cmds:
+      - task: build-frontend
+      - task: build-backend
+
+  build-frontend:
+    dir: frontend
+    cmds: 
+      - npm run build
+
+  build-backend:
+    dir: backend
+    cmds:
+      - cargo build --release
