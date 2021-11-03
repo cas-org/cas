@@ -3,7 +3,16 @@
 version: '3'
 
 tasks:
+  setup-pypy:
+    desc: Setup PyPy in Poetry shell.
+    dir: backend
+    cmds:
+      - cmd: poetry env remove python
+        ignore_error: true
+      - poetry env use pypy
+
   run:
+    desc: Build and run project.
     deps: [build]
     dir: backend
     cmds:
@@ -11,19 +20,31 @@ tasks:
         ignore_error: true
 
   clean:
+    desc: Remove project builds.
     cmds:
       - task: clean-frontend
 
   clean-frontend:
+    desc: Remove frontend builds.
     dir: frontend
     cmds: 
       - rm -r build
 
   build:
+    desc: Build project.
     cmds:
       - task: build-frontend
+      - task: build-backend
 
   build-frontend:
+    desc: Build frontend.
     dir: frontend
     cmds: 
+      - npm install
       - npm run build
+
+  build-backend:
+    desc: Build backend.
+    dir: backend
+    cmds: 
+      - poetry run poetry install
