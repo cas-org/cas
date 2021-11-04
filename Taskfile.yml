@@ -47,4 +47,4 @@ tasks:
     desc: Build backend.
     dir: backend
     cmds: 
-      - poetry run poetry install
+      - poetry install
