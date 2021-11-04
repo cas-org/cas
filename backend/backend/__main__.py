@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Tuple
 import os
 
 from fastapi import FastAPI
@@ -33,6 +33,4 @@ class SinglePageApplication(StaticFiles):
         return (full_path, stat_result)
 
 app = FastAPI()
-app.mount("/", SinglePageApplication(directory="../frontend/build"), name="app")
-
-
+app.mount("/app", SinglePageApplication(directory="../frontend/build"), name="app")
