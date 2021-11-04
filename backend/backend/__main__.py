@@ -3,6 +3,7 @@ import os
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import RedirectResponse
 
 class SinglePageApplication(StaticFiles):
     """Acts similar to the bripkens/connect-history-api-fallback
@@ -34,3 +35,7 @@ class SinglePageApplication(StaticFiles):
 
 app = FastAPI()
 app.mount("/app", SinglePageApplication(directory="../frontend/build"), name="app")
+
+@app.get("/")
+def redirect_to_app():
+    return RedirectResponse("/app/")
