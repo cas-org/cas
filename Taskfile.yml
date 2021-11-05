@@ -3,6 +3,62 @@
 version: '3'
 
 tasks:
+  # Main commands 
+  run:
+    desc: Run project.
+    dir: backend
+    cmds:
+      - cmd: poetry run uvicorn backend.__main__:app
+        ignore_error: true
+
+  dev-run:
+    desc: Run project in development mode.
+    dir: backend
+    cmds:
+      - cmd: poetry run uvicorn backend.__main__:app --reload
+        ignore_error: true
+
+  build:
+    desc: Build project.
+    cmds:
+      - task: build-frontend
+
+  build-frontend:
+    desc: Build frontend.
+    dir: frontend
+    cmds: 
+      - npm run build
+
+  install:
+    desc: Install project dependencies.
+    cmds:
+      - task: install-frontend
+      - task: install-backend
+
+  install-frontend:
+    desc: Install frontend dependencies.
+    dir: frontend
+    cmds:
+      - npm install
+
+  install-backend:
+    desc: Install backend dependencies.
+    dir: backend
+    cmds: 
+      - poetry install
+
+  # Additional commands
+  format:
+    desc: Formats project source code. 
+    cmds: 
+      - task: format-backend
+  
+  format-backend:
+    desc: Formats backend source code.
+    dir: backend
+    cmds: 
+      - poetry run autopep8 -i -r -a -a -a backend/
+
   setup-pypy:
     desc: Setup PyPy in Poetry shell.
     dir: backend
@@ -10,41 +66,3 @@ tasks:
       - cmd: poetry env remove python
         ignore_error: true
       - poetry env use pypy
-
-  run:
-    desc: Build and run project.
-    deps: [build]
-    dir: backend
-    cmds:
-      - cmd: poetry run uvicorn backend.__main__:app --reload
-        ignore_error: true
-
-  clean:
-    desc: Remove project builds.
-    cmds:
-      - task: clean-frontend
-
-  clean-frontend:
-    desc: Remove frontend builds.
-    dir: frontend
-    cmds: 
-      - rm -r build
-
-  build:
-    desc: Build project.
-    cmds:
-      - task: build-frontend
-      - task: build-backend
-
-  build-frontend:
-    desc: Build frontend.
-    dir: frontend
-    cmds: 
-      - npm install
-      - npm run build
-
-  build-backend:
-    desc: Build backend.
-    dir: backend
-    cmds: 
-      - poetry install
