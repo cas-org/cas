@@ -3,7 +3,8 @@ import ssl
 import toml
 
 
-DATABASE_CONNECTION_STRING = toml.load("config.toml")["database"]["connection_string"]
+DATABASE_CONNECTION_STRING = toml.load(
+    "config.toml")["database"]["connection_string"]
 
 
 def get_client() -> MongoClient:

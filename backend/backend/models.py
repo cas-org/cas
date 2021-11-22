@@ -1,21 +1,21 @@
-from enum import Enum, auto
-from typing import List, Optional
+from enum import Enum
+from typing import List, Optional, Union
 from pydantic import BaseModel
 from bson.timestamp import Timestamp
 from bson.objectid import ObjectId
 
 
-class ParticipationStatus(Enum):
-    SIGNED_UP = auto()
-    ABSENT = auto()
-    PARTICIPATED = auto()
-    AWARDED = auto()
-    BRONZE = auto()
-    SILVER = auto()
-    GOLD = auto()
+class ParticipationStatus(Enum, str):
+    SIGNED_UP = "signed_up"
+    ABSENT = "absent"
+    PARTICIPATED = "participated"
+    AWARDED = "awarded"
+    BRONZE = "bronze"
+    SILVER = "silver"
+    GOLD = "gold"
 
 
-class Participation:
+class Participation(BaseModel):
     ref: ObjectId
     status: ParticipationStatus
     marks: Optional[int]
@@ -32,42 +32,45 @@ class UserInDb(User):
     pass
 
 
-class OccurringType(Enum):
-    CONTEST = auto()
+class OccurringType(Enum, str):
+    CONTEST = "contest"
 
 
-class QuestionType(Enum):
-    Objective = auto()
-    Subjective = auto()
-    TrueOrFalse = auto()
-    MultipleOption = auto()
-    
-class OptionStatus(Enum):
-    Option = auto()
-    Answer = auto()
-    
-class QuestionOption:
-    status: OptionStatus
-    option1: str
-    option2: str
-    option3: str
-    option4: str
+class ContentType(Enum, str):
+    OBJECTIVE = "objective"
+    SUBJECTIVE = "subjective"
+    TRUE_OR_FALSE = "true_or_false"
+    MULTIPLE_OPTIONS = "multiple_options"
 
-class QuestionStatement:
-    Statementid: ObjectId  
-    Statement: str  
 
-class QuestionContent:
-    ref: ObjectId
-    status: QuestionType
-    statement: QuestionStatement
-    option: Optional[List[QuestionOption]]
-    
+class ObjectiveAnswer(BaseModel):
+    pass  # TODO
+
+
+class SubjectiveAnswer(BaseModel):
+    pass  # TODO
+
+
+class TrueOrFalseAnswer(BaseModel):
+    pass  # TODO
+
+
+class MultipleOptionsAnswer(BaseModel):
+    pass  # TODO
+
+
+class OccurringContent(BaseModel):
+    type: ContentType
+    question: str
+    description: str
+    answer: Union[ObjectiveAnswer, SubjectiveAnswer,
+                  TrueOrFalseAnswer, MultipleOptionsAnswer]
+
 
 class Occurring(BaseModel):
     display: str
     type: OccurringType
-    content: List[QuestionContent]
+    contents: List[OccurringContent]
     created_on: Timestamp
     edited_on: Timestamp
 
