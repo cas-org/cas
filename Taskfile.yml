@@ -58,6 +58,7 @@ tasks:
     dir: backend
     cmds: 
       - poetry run autopep8 -i -r -a -a -a backend/
+      - poetry run isort .
 
   setup-pypy:
     desc: Setup PyPy in Poetry shell.

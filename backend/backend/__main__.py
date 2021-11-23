@@ -1,9 +1,10 @@
-from typing import Tuple
 import os
+from typing import Tuple
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
+
 from .api.v1 import api as v1_api
 
 

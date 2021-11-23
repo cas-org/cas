@@ -1,7 +1,7 @@
-from pymongo import MongoClient
 import ssl
-import toml
 
+import toml
+from pymongo import MongoClient
 
 DATABASE_CONNECTION_STRING = toml.load(
     "config.toml")["database"]["connection_string"]

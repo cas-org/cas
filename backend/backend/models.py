@@ -1,8 +1,9 @@
 from enum import Enum
 from typing import List, Optional, Union
-from pydantic import BaseModel
-from bson.timestamp import Timestamp
+
 from bson.objectid import ObjectId
+from bson.timestamp import Timestamp
+from pydantic import BaseModel
 
 
 class ParticipationStatus(Enum, str):
